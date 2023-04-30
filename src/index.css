@@ -27,13 +27,21 @@ code {
   display: flex;
   justify-content:space-between;
   margin-top: 40px;
-  
 }
 
 /* Login Form */
 .signin{
   background-color: rgba(255, 255, 255, 0.03);
   width: 70vw;
+}
+
+/* Register Form */
+.passwordValid{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',sans-serif;
 }
 
 .measure {

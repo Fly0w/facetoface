@@ -6,6 +6,8 @@ class Register extends Component {
         this.state ={
             email : "",
             password : "",
+            validPassword : false,
+            validEmail : false,
             name : "",
         }
     }
@@ -14,24 +16,80 @@ class Register extends Component {
         this.setState({name: event.target.value})
     }
 
+
+    emailCheck = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailValid = emailRegex.test(email);
+
+        if (emailValid){
+            this.setState({validEmail : true})
+            console.log ("yes")
+        } else {
+            this.setState({validEmail : false})
+            console.log ("no")
+        }
+    }
+
     onEmailChange = (event) => {
-        this.setState({email: event.target.value})
+        const email = event.target.value
+        this.setState({email: email })
+        this.emailCheck(email)
+    }
+
+    passwordCheck = (password) => {
+        const specialCharRegex = /[ !@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+        const numberRegex = /(?=.*?[0-9])/;
+        const caseRegex = /^(?=.*[a-z])(?=.*[A-Z])/;
+
+        const hasSpecialChar = specialCharRegex.test(password);
+        const hasNumber = numberRegex.test(password);
+        const hasCase = caseRegex.test(password);
+
+        const spec = document.getElementById("passwordSpec");
+        const numb = document.getElementById("passwordNumber");
+        const casing = document.getElementById("passwordCase");
+
+        if (!hasSpecialChar){
+            spec.style.color = "rgb(135, 0, 0)";
+        }else{
+            spec.style.color = "rgb(0, 135, 36)";
+        }
+        if (!hasNumber){
+            numb.style.color = "rgb(135, 0, 0)";
+        }else{
+            numb.style.color = "rgb(0, 135, 36)";
+        }
+        if (!hasCase){
+            casing.style.color = "rgb(135, 0, 0)";
+        }else{
+            casing.style.color = "rgb(0, 135, 36)";
+        }
+
+        
+        if (hasSpecialChar && hasNumber && hasCase){
+            this.setState({validPassword : true})
+        } else {
+            this.setState({validPassword : false})
+        }
     }
 
     onPasswordChange = (event) => {
-        this.setState({password: event.target.value})
+        const pswd = event.target.value;
+        this.setState({password: pswd});
+        this.passwordCheck(pswd);
     }
 
     onSubmitSignin = () => {
-        fetch("https://cryptic-springs-50153.herokuapp.com/register", {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                name : this.state.name,
-                email : this.state.email,
-                password: this.state.password,
+        if (this.state.validPassword && this.state.validEmail){
+            fetch("https://cryptic-springs-50153.herokuapp.com/register", {
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name : this.state.name,
+                    email : this.state.email,
+                    password: this.state.password,
+                })
             })
-        })
             .then(response => response.json())
             .then(user => {
                 if (user.id) {
@@ -40,6 +98,10 @@ class Register extends Component {
                 }
             })
             .catch(console.log)
+        } else {
+            const text = document.getElementById("passwordNotValid");
+            text.textContent = "Invalid Email or Password";
+        }
     }
 
 
@@ -79,6 +141,19 @@ class Register extends Component {
                         type="password" 
                         name="password"  
                         id="password"/>
+                        <div className="passwordValid">
+                            <label style={{
+                                "text-align": "center",
+                                "fontWeight": "bolder",
+                                "marginTop" : "10px"
+                                }}>Password Requirements</label>
+                            <ul>
+                                <li id='passwordSpec' style={{"color": "rgb(135, 0, 0)"}}>1 special character</li>
+                                <li id='passwordNumber' style={{"color": "rgb(135, 0, 0)"}}>1 number</li>
+                                <li id='passwordCase' style={{"color": "rgb(135, 0, 0)"}}>1 lowercase and 1 uppercase </li>
+                            </ul>
+                        </div>
+                        
                     </div>
 
                     </fieldset>
@@ -89,6 +164,10 @@ class Register extends Component {
                         type="submit" 
                         value="Register"
                         />
+                        <p id="passwordNotValid" style={{
+                                "text-align": "center",
+                                "fontWeight": "bold"
+                                }}></p>
                     </div>
                 </div>
         </main>
