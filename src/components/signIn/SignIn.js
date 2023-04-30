@@ -18,6 +18,9 @@ class SignIn extends Component {
     }
 
     onSubmitSignin = () => {
+        const errorLogin = document.getElementById("errorLogin");
+        errorLogin.textContent="";
+
         fetch("https://cryptic-springs-50153.herokuapp.com/signin", {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -31,10 +34,20 @@ class SignIn extends Component {
                 if (user.id) {
                     this.props.loadUser(user);
                     this.props.onRouteChange('home')
+                } else {
+                    errorLogin.textContent="Wrong credentials"
                 }
             })
             .catch(console.log)
     }
+
+
+    handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+          this.onSubmitSignin();
+        }
+      };
+
 
     render(){
         const { onRouteChange } = this.props;
@@ -46,23 +59,26 @@ class SignIn extends Component {
                     <div className="mt3">
                         <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                         <input 
-                            onChange={this.onEmailChange}
-                            className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                            autoComplete='username' 
-                            type="email" 
-                            name="email-address"  
-                            id="email-address"/>
+                        onKeyDown={this.handleKeyDown}
+                        onChange={this.onEmailChange}
+                        className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                        autoComplete='username' 
+                        type="email" 
+                        name="email-address"  
+                        id="email-address"/>
                     </div>
                     <div className="mv3">
                         <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                         <input 
-                            onChange={this.onPasswordChange}
-                            className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
-                            autoComplete='current-password' 
-                            type="password" 
-                            name="password"  
-                            id="password"/>
+                        onKeyDown={this.handleKeyDown}
+                        onChange={this.onPasswordChange}
+                        className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                        autoComplete='current-password' 
+                        type="password" 
+                        name="password"  
+                        id="password"/>
                     </div>
+                    <p id="errorLogin" style={{"color": "rgb(135, 0, 0)"}}></p>
                     </fieldset>
                     <div className="">
                         <input 

@@ -16,7 +16,6 @@ class Register extends Component {
         this.setState({name: event.target.value})
     }
 
-
     emailCheck = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const emailValid = emailRegex.test(email);
@@ -44,10 +43,12 @@ class Register extends Component {
         const hasSpecialChar = specialCharRegex.test(password);
         const hasNumber = numberRegex.test(password);
         const hasCase = caseRegex.test(password);
+        const isLongEnough = (password.length >= 6 && password.length <= 64);
 
         const spec = document.getElementById("passwordSpec");
         const numb = document.getElementById("passwordNumber");
         const casing = document.getElementById("passwordCase");
+        const pwlength = document.getElementById("passwordLength");
 
         if (!hasSpecialChar){
             spec.style.color = "rgb(135, 0, 0)";
@@ -64,9 +65,13 @@ class Register extends Component {
         }else{
             casing.style.color = "rgb(0, 135, 36)";
         }
-
+        if (password.length < 6 || password.length > 64){
+            pwlength.style.color = "rgb(135, 0, 0)";
+        }else {
+            pwlength.style.color = "rgb(0, 135, 36)";
+        }
         
-        if (hasSpecialChar && hasNumber && hasCase){
+        if (hasSpecialChar && hasNumber && hasCase && isLongEnough){
             this.setState({validPassword : true})
         } else {
             this.setState({validPassword : false})
@@ -101,8 +106,17 @@ class Register extends Component {
         } else {
             const text = document.getElementById("passwordNotValid");
             text.textContent = "Invalid Email or Password";
+            // document.body.style.background = "linear-gradient(0.3turn, rgb(45, 50, 50), rgb(134, 91, 91)) no-repeat center center fixed"
         }
     }
+
+    
+    handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+          this.onSubmitSignin();
+        }
+      };
+
 
 
     render(){
@@ -115,6 +129,7 @@ class Register extends Component {
                     <div className="mt3">
                         <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
                         <input 
+                        onKeyDown={this.handleKeyDown}
                         onChange= {this.onNameChange}
                         className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         autoComplete='username' 
@@ -125,6 +140,7 @@ class Register extends Component {
                     <div className="mv3">
                         <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
                         <input 
+                        onKeyDown={this.handleKeyDown}
                         onChange= {this.onEmailChange}
                         className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         autoComplete='username' 
@@ -135,6 +151,7 @@ class Register extends Component {
                     <div className="mv3">
                         <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
                         <input 
+                        onKeyDown={this.handleKeyDown}
                         onChange= {this.onPasswordChange}
                         className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         autoComplete='new-password' 
@@ -151,6 +168,7 @@ class Register extends Component {
                                 <li id='passwordSpec' style={{"color": "rgb(135, 0, 0)"}}>1 special character</li>
                                 <li id='passwordNumber' style={{"color": "rgb(135, 0, 0)"}}>1 number</li>
                                 <li id='passwordCase' style={{"color": "rgb(135, 0, 0)"}}>1 lowercase and 1 uppercase </li>
+                                <li id='passwordLength' style={{"color": "rgb(135, 0, 0)"}}>Length between 6 and 64 caracters </li>
                             </ul>
                         </div>
                         

@@ -85,6 +85,10 @@ class App extends Component {
 
 // Function returning the data from the API using our personal data
   returnClarifaiResponse = (image) => {
+    //error display
+    const errorUrl = document.getElementById("errorUrl");
+    errorUrl.textContent = "";
+
     const value = fetch("https://cryptic-springs-50153.herokuapp.com/imageurl",{
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -94,7 +98,7 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(response => {
-        if (response) {
+        if (response.status.description === "Ok") { //If we get a valid response from the API
           fetch("https://cryptic-springs-50153.herokuapp.com/image", {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
@@ -107,8 +111,10 @@ class App extends Component {
             this.setState(Object.assign(this.state.user, { entries : count }))
           })
           .catch(err => console.log(err))
+          this.displayFaceBox(this.calculateFaceLocation(response))
+        } else {
+          errorUrl.textContent = "URL is not valid, please try again" //error display
         }
-        this.displayFaceBox(this.calculateFaceLocation(response))
       })
       .catch(err => console.log('error', err));
 
@@ -148,6 +154,7 @@ class App extends Component {
           ? <div>
             <Rank name={this.state.user.name} entries={this.state.user.entries}/>
             <ImageLinkForm onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
+            <p id="errorUrl" className='divcolcenter' style={{"color": "rgb(85, 0, 0)"}}></p>
             <FaceRecognition URL={imageUrl} box={box}/>        
           </div>
           : this.state.route === 'signin'
