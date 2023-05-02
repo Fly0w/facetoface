@@ -7,6 +7,7 @@ import ImageLinkForm from "./components/imageLinkForm/ImageLinkForm";
 import FaceRecognition from './components/faceRecognition/FaceRecognition';
 import SignIn from './components/signIn/SignIn';
 import Register from './components/register/Register';
+import UserPage from './components/userPage/UserPage';
 
 
 //Particles BG settings
@@ -32,13 +33,13 @@ const state_init = {
   imageUrl: '',
   box:{},
   route: 'signin',
-  isSignedIn: false,
   user : {
     id: "",
     name: "",
     email: "",
     entries: 0,
-    joined: ''
+    joined: '',
+    last_url:''
   }
 };
 
@@ -56,7 +57,8 @@ class App extends Component {
       name: data.name,
       email: data.email,
       entries: data.entries,
-      joined: data.joined
+      joined: data.joined,
+      last_url: data.last_url
     }})
   }
 
@@ -67,8 +69,6 @@ class App extends Component {
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
-
-    // console.log(width, height, imageBox)
 
     return {
       leftCol: imageBox.left_col * width,
@@ -85,7 +85,7 @@ class App extends Component {
 
 // Function returning the data from the API using our personal data
   returnClarifaiResponse = (image) => {
-    //error display
+    //error display if the API returns a failed response (see below)
     const errorUrl = document.getElementById("errorUrl");
     errorUrl.textContent = "";
 
@@ -109,6 +109,7 @@ class App extends Component {
           .then(response => response.json())
           .then(count => {
             this.setState(Object.assign(this.state.user, { entries : count }))
+            this.setState(Object.assign(this.state.user, {last_url : this.state.input} )) // saving last loaded url
           })
           .catch(err => console.log(err))
           this.displayFaceBox(this.calculateFaceLocation(response))
@@ -131,35 +132,39 @@ class App extends Component {
     this.setState({input: event.target.value}, () => console.log(this.state.input))
   }
 
+// Function changing the route of our app, and changing the state
   onRouteChange = (route) => {
-    if (route === 'home'){
-      this.setState({isSignedIn: true})
-    } else if(route === 'signin') {
+    if(route === 'signin'){
       this.setState(state_init)
     }
-    this.setState({route:route})
+    this.setState({route : route})
   }
 
 
   render() {
-    const { imageUrl, box, isSignedIn } = this.state;
+    const { imageUrl, box, route } = this.state;
     return (
       <div>
         <div className="toppage">
           <Logo />
-          <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+          <Navigation route={route} onRouteChange={this.onRouteChange}/>
         </div>
 
         {this.state.route === 'home'
           ? <div>
             <Rank name={this.state.user.name} entries={this.state.user.entries}/>
+            
             <ImageLinkForm onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
             <p id="errorUrl" className='divcolcenter' style={{"color": "rgb(85, 0, 0)"}}></p>
             <FaceRecognition URL={imageUrl} box={box}/>        
           </div>
           : this.state.route === 'signin'
               ? <SignIn  onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
-              : <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
+              : this.state.route === 'register'
+                ? <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
+                : <UserPage 
+                  onRouteChange={this.onRouteChange}
+                  userInfo={this.state.user} />
         }
 
         <ParticlesBg type="custom" config={config} bg={true}/>
