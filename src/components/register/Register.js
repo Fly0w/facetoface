@@ -171,10 +171,10 @@ class Register extends Component {
                                 "marginTop" : "10px"
                                 }}>Password Requirements</label>
                             <ul>
-                                <li id='passwordSpec' style={{"color": "rgb(135, 0, 0)"}}>1 special character</li>
-                                <li id='passwordNumber' style={{"color": "rgb(135, 0, 0)"}}>1 number</li>
-                                <li id='passwordCase' style={{"color": "rgb(135, 0, 0)"}}>1 lowercase and 1 uppercase </li>
-                                <li id='passwordLength' style={{"color": "rgb(135, 0, 0)"}}>Length between 6 and 64 caracters </li>
+                                <li id='passwordSpec' style={{"color": "rgb(135, 0, 0)"}}>1 Special character</li>
+                                <li id='passwordNumber' style={{"color": "rgb(135, 0, 0)"}}>1 Number</li>
+                                <li id='passwordCase' style={{"color": "rgb(135, 0, 0)"}}>1 Lowercase and 1 uppercase </li>
+                                <li id='passwordLength' style={{"color": "rgb(135, 0, 0)"}}>Length between 6 and 64 characters </li>
                             </ul>
                         </div>
                     </div>

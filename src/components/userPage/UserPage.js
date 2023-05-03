@@ -49,7 +49,7 @@ class UserPage extends Component{
                     onKeyDown={this.handleKeyDown}
                     onChange= {this.onInputNameChange}
                     className="pa2 input-reset ba bg-washed-blue hover-bg-black hover-white w-100" 
-                    autoComplete='username' 
+                    autoComplete='' 
                     type="text" 
                     name="new_name"  
                     id="new_name"
