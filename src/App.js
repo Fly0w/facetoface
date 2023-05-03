@@ -28,6 +28,7 @@ let config = {
   // f: [2, -1], // force
 }
 
+// Initial state when loading the page
 const state_init = {
   input: '',
   imageUrl: '',
@@ -49,7 +50,6 @@ class App extends Component {
     this.state = state_init;
   }
  
-  
 //Fonction that loads the user informations in the state
   loadUser = (data) => {
     this.setState({user : {
@@ -78,13 +78,14 @@ class App extends Component {
     }
   }
 
-// Function that displays the Face box
+// Function that changes the state "box" to add the Face box coordinates
   displayFaceBox = (coordBox) => {
-  this.setState ({box : coordBox});
+    this.setState ({box : coordBox});
   }
 
-// Function returning the data from the API using our personal data, and updates database with new count and 
-// new "last URL"
+// Function sending a request to the server with the url of the image we want.
+// Using the data returned by the server, calls the functions to draw the face box,
+// and updates database with new count and new "last URL"
   returnClarifaiResponse = (image) => {
     //error display if the API returns a failed response (see below)
     const errorUrl = document.getElementById("errorUrl");
@@ -112,7 +113,7 @@ class App extends Component {
     return value;
   }
    
-// Function that make a request to the server to update the entries count
+// Function that make a request to the server with our user id to update the entry count
   callServerUpdateEntriesCount= () =>{
     fetch("https://cryptic-springs-50153.herokuapp.com/image", {
             method: 'put',
@@ -128,7 +129,8 @@ class App extends Component {
           .catch(err => console.log(err))
   }
 
-// Function that make a request to the server to update last loaded URL
+// Function that make a request to the server with the image URL and user ID, 
+// then take the url sent by the server to updates the state "last_url".
   callServerUpdateLastURL= () =>{
     fetch("https://cryptic-springs-50153.herokuapp.com/imageupdate", {
       method: 'put',
@@ -139,25 +141,22 @@ class App extends Component {
       })
     })
       .then(response => response.json())
-      .then(last_url => 
-        this.setState(Object.assign(this.state.user, {last_url : last_url} ))) // updating last loaded url
+      .then(url => 
+        this.setState(Object.assign(this.state.user, {last_url : url} ))) // updating last loaded url
   }
 
-
-
-
-
-// Function setting the state URL and executing the function to get the data according to the url
+// Function setting the state "imageUrl" and executing the function to get the data according to the url
   onSubmit = () => {
     this.setState({imageUrl: this.state.input}, () => this.returnClarifaiResponse(this.state.imageUrl));
   }
 
-// Function setting the state for the input box
+// Function setting the state for the state "input"
   onInputChange = (event) => {
-    this.setState({input: event.target.value}, () => console.log(this.state.input))
+    this.setState({input: event.target.value})
   }
 
-// Function changing the route of our app, and changing the initial state
+// Function changing the route of our app, and setting the state to the initial state if
+// the user is on the signin page
   onRouteChange = (route) => {
     if(route === 'signin'){
       this.setState(state_init)
@@ -187,13 +186,13 @@ class App extends Component {
               : this.state.route === 'register'
                 ? <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
                 : <UserPage 
-                  onRouteChange={this.onRouteChange}
+                  loadUser={this.loadUser}
                   userInfo={this.state.user} />
         }
         <ParticlesBg type="custom" config={config} bg={true}/>
       </div>
-  );
-}
+    );
+  }
 }
 
 export default App;

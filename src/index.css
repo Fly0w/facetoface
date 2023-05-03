@@ -29,11 +29,15 @@ code {
   margin-top: 40px;
 }
 
+
+
 /* Login Form */
 .signin{
   background-color: rgba(255, 255, 255, 0.03);
   width: 70vw;
 }
+
+
 
 /* Register Form */
 .passwordValid{
@@ -47,10 +51,15 @@ code {
 .measure {
   width: 90%;
 }
+
+
+
 /* Input part */
 button{
   cursor: pointer;
 }
+
+
 
 /* Navigation part */
 nav {
@@ -58,6 +67,27 @@ nav {
   justify-content: right;
 }
 
+
+
+/* MyPage */
+.nameChange{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.userInfo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#new_name{
+  height:2rem;
+  width: 50%;
+}
 
 
 /* Tilted Logo part */
@@ -81,7 +111,6 @@ nav {
 }
 
 /* Preview Loaded Image */
-
 .previewImg{
   width: 350px;
   position: absolute;

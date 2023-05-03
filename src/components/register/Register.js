@@ -11,30 +11,41 @@ class Register extends Component {
             name : "",
         }
     }
-
+// Updates the "name" state of this component when typing
     onNameChange = (event) => {
         this.setState({name: event.target.value})
     }
+// Updates the "email" state of this component when typing
+    onEmailChange = (event) => {
+        const email = event.target.value
+        this.setState({email: email })
+        this.emailCheck(email)
+    }
+// Updates the "password" state of this component when typing
+    onPasswordChange = (event) => {
+        const pswd = event.target.value;
+        this.setState({password: pswd});
+        this.passwordCheck(pswd);
+    }
 
+// Function that checks if the email in parameter satisfies the conditions for an
+// email, i.e having a "@" and a "." in it. Changes the states "validEmail" to true if OK
     emailCheck = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const emailValid = emailRegex.test(email);
 
         if (emailValid){
             this.setState({validEmail : true})
-            console.log ("yes")
         } else {
             this.setState({validEmail : false})
-            console.log ("no")
         }
     }
 
-    onEmailChange = (event) => {
-        const email = event.target.value
-        this.setState({email: email })
-        this.emailCheck(email)
-    }
-
+// Function that checks if the password in parameter satisfies the conditions for an
+// email, i.e having at least 1 special character, 1 number, 1 lower and upper case 
+// character and having a length between 6 and 64 characters in it. 
+// Changes the states "validpassword" to true if OK.
+// Also takes care of displaying in real time if the conditions are respected
     passwordCheck = (password) => {
         const specialCharRegex = /[ !@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
         const numberRegex = /(?=.*?[0-9])/;
@@ -78,12 +89,10 @@ class Register extends Component {
         }
     }
 
-    onPasswordChange = (event) => {
-        const pswd = event.target.value;
-        this.setState({password: pswd});
-        this.passwordCheck(pswd);
-    }
 
+// Function that checks if the email and password are valid. If yes, sends a request 
+// to the server with the new user's information. If no, displays an error message if the
+// user tries to create an invalid email/password
     onSubmitSignin = () => {
         if (this.state.validPassword && this.state.validEmail){
             fetch("https://cryptic-springs-50153.herokuapp.com/register", {
@@ -109,14 +118,12 @@ class Register extends Component {
         }
     }
 
-    
+// Enables sending the form by pressing Enter
     handleKeyDown = (event) => {
         if (event.key === "Enter") {
           this.onSubmitSignin();
         }
       };
-
-
 
     render(){
         return (
@@ -170,7 +177,6 @@ class Register extends Component {
                                 <li id='passwordLength' style={{"color": "rgb(135, 0, 0)"}}>Length between 6 and 64 caracters </li>
                             </ul>
                         </div>
-                        
                     </div>
 
                     </fieldset>
@@ -189,7 +195,7 @@ class Register extends Component {
                 </div>
         </main>
         )
-}
+    }
 }
 
 export default Register

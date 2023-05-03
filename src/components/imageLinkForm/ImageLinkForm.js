@@ -1,6 +1,8 @@
 import React from 'react';
 
 const ImageLinkForm = ({ onInputChange, onSubmit }) =>{
+    
+// Allows submiting when pressing Enter
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
           onSubmit();
@@ -9,9 +11,11 @@ const ImageLinkForm = ({ onInputChange, onSubmit }) =>{
 
     return (
         <div className='divcolcenter'>
-            <p className='f3 navy'>
-                {'This Magic Brain detects faces in your pictures. Give it a try !'}
-            </p>
+            <ol className='f3 light-gray'>
+                <li>{'Select a picture with a face in it'}</li>
+                <li>{'Copy and paste the URL below'}</li>
+                <li>{'See what will happen !'}</li>
+            </ol>
             <div className='pa4 br3 shadow-1'>
                 <input 
                 onKeyDown={handleKeyDown}

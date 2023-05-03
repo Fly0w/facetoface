@@ -9,14 +9,19 @@ class SignIn extends Component {
         }
     }
 
+// Updates the "signInEmail" state of this component when typing
     onEmailChange = (event) => {
         this.setState({signInEmail: event.target.value})
     }
-
+// Updates the "signInPassword" state of this component when typing
     onPasswordChange = (event) => {
         this.setState({signInPassword: event.target.value})
     }
 
+// Function that sends a request to the server with the credentials that the user has written.
+// If the response is positive, i.e if we get a user object (supposingly having an "id"),
+// then it loads the user's information in the App.js state, and redirect to the home page
+// Displays an error message in case of bad credentials
     onSubmitSignin = () => {
         const errorLogin = document.getElementById("errorLogin");
         errorLogin.textContent="";
@@ -41,13 +46,12 @@ class SignIn extends Component {
             .catch(console.log)
     }
 
-
+// Enables sending the form by pressing Enter
     handleKeyDown = (event) => {
         if (event.key === "Enter") {
           this.onSubmitSignin();
         }
       };
-
 
     render(){
         const { onRouteChange } = this.props;
