@@ -11,7 +11,7 @@ class UserPage extends Component{
             <h1>My Page</h1>
             <p className = "white f3 ">{`Name : ${userInfo.name}`}</p>
             <p className = "white f6 ">{userInfo.email}</p>
-            <p className = "white f3 ">{`Joined : ${userInfo.joined}`}</p>
+            <p className = "white f3 ">{`Joined : ${userInfo.joined.slice(0,10)}`}</p>
             <p className = "white f3 ">{`Total number of entries : ${userInfo.entries}`}</p>
             <div>
                 <p className = "white f3 ">Last URL loaded :</p>

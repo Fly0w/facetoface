@@ -106,7 +106,6 @@ class Register extends Component {
         } else {
             const text = document.getElementById("passwordNotValid");
             text.textContent = "Invalid Email or Password";
-            // document.body.style.background = "linear-gradient(0.3turn, rgb(45, 50, 50), rgb(134, 91, 91)) no-repeat center center fixed"
         }
     }
 

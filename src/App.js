@@ -50,7 +50,7 @@ class App extends Component {
   }
  
   
-//For future use, loads the user informations in the state
+//Fonction that loads the user informations in the state
   loadUser = (data) => {
     this.setState({user : {
       id: data.id,
@@ -62,7 +62,7 @@ class App extends Component {
     }})
   }
 
-// Function returning the Face box location using coordinates
+// Function returning the Face box location using coordinates, inside an object
   calculateFaceLocation = (data) =>{
     const imageBox = data.outputs[0].data.regions[0].region_info.bounding_box;
     
@@ -80,10 +80,11 @@ class App extends Component {
 
 // Function that displays the Face box
   displayFaceBox = (coordBox) => {
-  this.setState ({box : coordBox}, () => console.log(this.state.box));
+  this.setState ({box : coordBox});
   }
 
-// Function returning the data from the API using our personal data
+// Function returning the data from the API using our personal data, and updates database with new count and 
+// new "last URL"
   returnClarifaiResponse = (image) => {
     //error display if the API returns a failed response (see below)
     const errorUrl = document.getElementById("errorUrl");
@@ -99,7 +100,21 @@ class App extends Component {
       .then(response => response.json())
       .then(response => {
         if (response.status.description === "Ok") { //If we get a valid response from the API
-          fetch("https://cryptic-springs-50153.herokuapp.com/image", {
+          this.displayFaceBox(this.calculateFaceLocation(response))
+          this.callServerUpdateEntriesCount()
+          this.callServerUpdateLastURL()
+        }else {
+          errorUrl.textContent = "URL is not valid, please try again" //error display
+        }
+      })
+      .catch(err => console.log('error', err));
+
+    return value;
+  }
+   
+// Function that make a request to the server to update the entries count
+  callServerUpdateEntriesCount= () =>{
+    fetch("https://cryptic-springs-50153.herokuapp.com/image", {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -109,19 +124,29 @@ class App extends Component {
           .then(response => response.json())
           .then(count => {
             this.setState(Object.assign(this.state.user, { entries : count }))
-            this.setState(Object.assign(this.state.user, {last_url : this.state.input} )) // saving last loaded url
           })
           .catch(err => console.log(err))
-          this.displayFaceBox(this.calculateFaceLocation(response))
-        } else {
-          errorUrl.textContent = "URL is not valid, please try again" //error display
-        }
-      })
-      .catch(err => console.log('error', err));
-
-    return value;
   }
-   
+
+// Function that make a request to the server to update last loaded URL
+  callServerUpdateLastURL= () =>{
+    fetch("https://cryptic-springs-50153.herokuapp.com/imageupdate", {
+      method: 'put',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          id : this.state.user.id,
+          last_url : this.state.imageUrl
+      })
+    })
+      .then(response => response.json())
+      .then(last_url => 
+        this.setState(Object.assign(this.state.user, {last_url : last_url} ))) // updating last loaded url
+  }
+
+
+
+
+
 // Function setting the state URL and executing the function to get the data according to the url
   onSubmit = () => {
     this.setState({imageUrl: this.state.input}, () => this.returnClarifaiResponse(this.state.imageUrl));
@@ -132,7 +157,7 @@ class App extends Component {
     this.setState({input: event.target.value}, () => console.log(this.state.input))
   }
 
-// Function changing the route of our app, and changing the state
+// Function changing the route of our app, and changing the initial state
   onRouteChange = (route) => {
     if(route === 'signin'){
       this.setState(state_init)
@@ -153,7 +178,6 @@ class App extends Component {
         {this.state.route === 'home'
           ? <div>
             <Rank name={this.state.user.name} entries={this.state.user.entries}/>
-            
             <ImageLinkForm onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
             <p id="errorUrl" className='divcolcenter' style={{"color": "rgb(85, 0, 0)"}}></p>
             <FaceRecognition URL={imageUrl} box={box}/>        
@@ -166,7 +190,6 @@ class App extends Component {
                   onRouteChange={this.onRouteChange}
                   userInfo={this.state.user} />
         }
-
         <ParticlesBg type="custom" config={config} bg={true}/>
       </div>
   );
