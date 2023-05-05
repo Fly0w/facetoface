@@ -65,8 +65,8 @@ class UserPage extends Component{
             <div>
                 <p className = "white f3 ">Last URL loaded :</p>
                 {userInfo.last_url 
-                    ? <div>
-                        <p className = "white f5 ">{userInfo.last_url}</p>
+                    ? <div style={{"max-width" : "88vw"}}>
+                        <p className="white f5">{userInfo.last_url}</p>
                         <img width="300px" src={userInfo.last_url} alt="Last loaded"/>
                     </div>
                     : <p>No loaded URL yet</p>

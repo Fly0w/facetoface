@@ -41,8 +41,8 @@ class Register extends Component {
         }
     }
 
-// Function that checks if the password in parameter satisfies the conditions for an
-// email, i.e having at least 1 special character, 1 number, 1 lower and upper case 
+// Function that checks if the password in parameter satisfies the conditions for a
+// password, i.e having at least 1 special character, 1 number, 1 lower and upper case 
 // character and having a length between 6 and 64 characters in it. 
 // Changes the states "validpassword" to true if OK.
 // Also takes care of displaying in real time if the conditions are respected

@@ -8,6 +8,8 @@ import FaceRecognition from './components/faceRecognition/FaceRecognition';
 import SignIn from './components/signIn/SignIn';
 import Register from './components/register/Register';
 import UserPage from './components/userPage/UserPage';
+import ForgotPassword from './components/forgotPassword/ForgotPassword';
+
 
 
 //Particles BG settings
@@ -185,14 +187,15 @@ class App extends Component {
               ? <SignIn  onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
               : this.state.route === 'register'
                 ? <Register onRouteChange={this.onRouteChange} loadUser={this.loadUser}/>
-                : <UserPage 
-                  loadUser={this.loadUser}
-                  userInfo={this.state.user} />
+                : this.state.route === 'forgot_password'
+                  ?  <ForgotPassword onRouteChange={this.onRouteChange} />
+                  : <UserPage loadUser={this.loadUser} userInfo={this.state.user} />
         }
         <ParticlesBg type="custom" config={config} bg={true}/>
       </div>
     );
   }
+  
 }
 
 export default App;

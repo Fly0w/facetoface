@@ -95,6 +95,10 @@ class SignIn extends Component {
                     <div className="lh-copy mt3">
                         <a onClick={() => onRouteChange('register')} href="#0" className="f6 link dim black db pointer">Register</a>
                     </div>
+                    <div style={{"margin-top" : "15px"}}>
+                        <a onClick={() => onRouteChange('forgot_password')} href="#0" className="f6 link dim black db pointer">I forgot my password</a>
+                    </div>
+                    
                 </div>
         </main>
         )
