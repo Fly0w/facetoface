@@ -24,6 +24,9 @@ class ForgotPassword extends Component {
         const sentEmail = document.getElementById("sentEmail");
         sentEmail.textContent="";
 
+        // "https://cryptic-springs-50153.herokuapp.com/forgotPassword"
+        // "http://localhost:3001/forgotPassword"
+        
         fetch("https://cryptic-springs-50153.herokuapp.com/forgotPassword", {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
