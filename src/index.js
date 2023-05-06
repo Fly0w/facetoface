@@ -11,11 +11,11 @@ import ResetPassword from './components/resetPassword/ResetPassword';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/facetoface/",
     element: <App />,
   },
   {
-    path: "/reset-password/:email/:token",
+    path: "/facetoface/reset-password/:email/:token",
     element: <ResetPassword />,
   },
 ]);
