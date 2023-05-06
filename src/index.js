@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     path: "/reset-password/:email/:token",
     element: <ResetPassword />,
   },
-], {basename: "/facetoface"});
+]);
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
