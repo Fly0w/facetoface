@@ -46,7 +46,7 @@ If the user exists, will send a URL to the email containing a link to access the
 This is the page accessed when clicking the link sent by email when forgetting your password. Same as the register form, the new password must follow the password format, and be typed twice to become acceptable. The URL contains the user's mail adress.
 
 
-![](url_image)
+![](https://raw.githubusercontent.com/Fly0w/facetoface/main/Media/Reset%20Password.png)
 
 
 If the password is successfully changed, the database is updated with the new password, and the user is redirected to the Sign in section.
