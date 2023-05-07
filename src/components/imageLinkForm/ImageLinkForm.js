@@ -10,8 +10,11 @@ const ImageLinkForm = ({ onInputChange, onSubmit }) =>{
       };
 
     return (
-        <div className='divcolcenter'>
-            <ol className='f3 light-gray'>
+        <div className='divcolcenter' style={{
+        "max-width": "80vw",
+        "margin": "auto"
+        }}>
+            <ol className='f4 light-gray'>
                 <li>{'Select a picture with a face in it'}</li>
                 <li>{'Copy and paste the URL below'}</li>
                 <li>{'See what will happen !'}</li>
@@ -20,10 +23,10 @@ const ImageLinkForm = ({ onInputChange, onSubmit }) =>{
                 <input 
                 onKeyDown={handleKeyDown}
                 placeholder='Insert image URL'
-                className='f4 pa2 w-70 center' 
+                className='f4 pa2 w-90 center' 
                 type="text" 
                 onChange={onInputChange}/>
-                <button className='w-30 grow f4 link ph3 pv2 dib white bg-light-purple' onClick={onSubmit}>Detect</button>
+                <button className='w-40 grow f4 link pv2 dib white bg-light-purple' onClick={onSubmit}>Detect</button>
             </div>
         </div>
 

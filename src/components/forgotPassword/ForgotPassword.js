@@ -70,7 +70,7 @@ class ForgotPassword extends Component {
                         name="email-address"  
                         id="email-address"/>
                         <p  id="invalidEmail"></p>
-                        <p className="f4" id="sentEmail"></p>
+                        <p className="f6" id="sentEmail"></p>
                     </div>
                     </fieldset>
                     <div className="">
