@@ -100,8 +100,8 @@ For better safety regarding personal information handling such as passwords, we 
 
 Also for safety reasons, the sensitive data such as API keys, or email credentials are passed as environmental variables:
 ```javascript
-const PASSWORD = process.env.EMAILMDP;
-const EMAIL = process.env.EMAILMDP;
+const PASSWORD = process.env.MAILMDP;
+const EMAIL = process.env.EMAILMAIL;
 ```
 
 The communication with the database is also made possible with the [knex](https://www.npmjs.com/package/knex) library.
