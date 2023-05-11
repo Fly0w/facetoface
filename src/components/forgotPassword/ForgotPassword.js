@@ -56,6 +56,7 @@ class ForgotPassword extends Component {
     render(){
         return (
             <main className="center signin pa4 black-80 shadow-3 divcolcenter">
+                <p className="f3 i b dark-red">This feature is not supported in deployed app because it need an organizational email sender</p>
                 <div className="measure">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                     <legend className="f2 fw6 ph0 mh0">Forgot Password</legend>
@@ -81,7 +82,7 @@ class ForgotPassword extends Component {
                         value="Reset Password"
                         />
                     </div>
-
+                    
                 </div>
         </main>
         )
